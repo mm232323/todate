@@ -3,25 +3,34 @@
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #200d01;
+  --foreground: #ededed;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
+    --background: #200d01;
     --foreground: #ededed;
   }
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  color: var(--background) ;
+  background:  var(--foreground);
+  margin:0;
+  padding:0;
+  font-family:'Trebuchet MS'
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+.box-shadow {
+  box-shadow:10px 20px 20px 0 rgba(0, 0, 0, 0.075);
+}
+.font-family {
+  font-family: '__Ubuntu_7bf69b', '__Ubuntu_Fallback_7bf69b' !important;
+}
+.linear-gradient {
+  background-image: linear-gradient(to left,white,rgb(255, 229, 180),white);
+}
+.kode-mono {
+  font-family: "Kode Mono", monospace !important
 }

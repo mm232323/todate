@@ -7,7 +7,7 @@ import { redirect } from "next/navigation";
 import { signIn } from "next-auth/react";
 
 export async function signup(state: unknown, event: FormData) {
-  const userData = Object.fromEntries(event.entries()) as userInput;
+  const userData = Object.fromEntries(event.entries()) as unknown as userInput;
   const errors = [];
   const emailValidator = await validate(userData.email);
   if (userData.name.length < 5) errors.push("name");

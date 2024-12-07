@@ -16,7 +16,7 @@ export default function Mission({
   email: string;
 }) {
   const [state, action] = useFormState(updateMission, []);
-  const [selectedMission, setSelectedMission] = useState<missionInput>(mission);
+  const selectedMission = mission
   const [toggleStatue, setToggleStatue] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
   const [selectedDays, setSelectedDays] = useState<string[]>(

@@ -7,7 +7,7 @@ import { useSession } from "next-auth/react";
 import { useRef, useState, useEffect } from "react";
 import { useFormState } from "react-dom";
 import { getAvatar, setAvatar } from "../../../actions/main";
-export default function Avatar() {
+export default function Avatar({ serverHost }: { serverHost: string }) {
   const { data: session } = useSession();
   const email = session?.user?.email as string;
   const [avatarName, setAvatarName] = useState("");
@@ -25,11 +25,7 @@ export default function Avatar() {
   return (
     <div className="flex justify-center align-center w-[120px] h-[119px] rounded-full overflow-hidden bg-[#eee]">
       <Image
-        src={
-          avatarName.length
-            ? `${process.env.SERVER_HOST}/${avatarName}`
-            : "/avatar.svg"
-        }
+        src={avatarName.length ? `${serverHost}/${avatarName}` : "/avatar.svg"}
         alt="avatar img"
         width={125}
         height={125}

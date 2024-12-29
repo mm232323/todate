@@ -1,22 +1,22 @@
 "use server";
 
-import validate from "deep-email-validator";
 import { userInput } from "../util/types";
 import { hash } from "bcrypt";
 import { redirect } from "next/navigation";
 import { signIn } from "next-auth/react";
+import { isValidEmail, isValidPassword } from "../util/validators";
 
 export async function signup(state: unknown, event: FormData) {
-  const userData = Object.fromEntries(event.entries()) as userInput;
+  const userData = Object.fromEntries(event.entries()) as unknown as userInput;
   const errors = [];
-  const emailValidator = await validate(userData.email);
+  const emailValidator = isValidEmail(userData.email);
   if (userData.name.length < 5) errors.push("name");
   if (userData.phone.length !== 11) errors.push("phone");
   if (userData.gender == "Gender") errors.push("gender");
-  if (!emailValidator.validators.mx?.valid) errors.push("email");
-  if (userData.password.length < 6 || userData.password.length > 18)
-    errors.push("password");
+  if (!emailValidator) errors.push("email");
+  if (!isValidPassword(userData.password)) errors.push("password");
   if (userData.repassword !== userData.password) errors.push("repassword");
+  console.log(errors);
   if (errors.length) return errors;
   const user = userData as userInput;
   user.dailies = { todos: [], missions: [], quantities: [] };

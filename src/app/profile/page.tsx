@@ -24,7 +24,7 @@ export default async function ProfilePage() {
   return (
     <>
       <div className="w-[125px] h-[125px] rounded-full bg-[#EBEBEB] flex justify-center items-center border-[4px] border-white relative top-[45px] left-1/2 translate-x-[-50%]">
-        <Avatar />
+        <Avatar serverHost={process.env.SERVER_HOST!} />
       </div>
       <div className="w-10/12 h-[519px] flex bg-[#0000000e] rounded-[32px] gap-[80px] mb-[50px] justify-center items-center relative left-1/2 translate-x-[-50%]">
         <Properties user={user} />

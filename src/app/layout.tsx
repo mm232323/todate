@@ -24,7 +24,10 @@ export default async function RootLayout({
       <body className={`antialiased ${ubuntu.className}`}>
         <Providers>
           <Header />
-          <PagesHeader isAuthed={session?.user !== null} />
+          <PagesHeader
+            isAuthed={session?.user !== null}
+            serverHost={process.env.SERVER_HOST!}
+          />
           {children}
         </Providers>
       </body>

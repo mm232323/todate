@@ -4,7 +4,7 @@ import { missionInput } from "../../../util/types";
 import { RiDeleteBinLine } from "react-icons/ri";
 import { BiEdit, BiSave } from "react-icons/bi";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { handleDeleteMission, updateMission } from "../../../actions/main";
 import { useFormState } from "react-dom";
 import { formateTime } from "../../../util/helpers";
@@ -16,8 +16,9 @@ export default function Mission({
   email: string;
 }) {
   const [state, action] = useFormState(updateMission, []);
-  const [selectedMission, setSelectedMission] = useState<missionInput>(mission);
-  const [toggleStatue, setToggleStatue] = useState(false);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const selectedMission = mission;
+  const [toggleStatue, setToggleStatue] = useState<boolean | string>(false);
   const [isDeleted, setIsDeleted] = useState(false);
   const [selectedDays, setSelectedDays] = useState<string[]>(
     selectedMission.mission_days.split(",")
@@ -36,6 +37,17 @@ export default function Mission({
       setSelectedDays((prevDays) => [...prevDays, day]);
     }
   };
+  const handleEdition = () => {
+    if (state.includes("done")) {
+      setToggleStatue("re-edit");
+    } else {
+      setToggleStatue(true);
+    }
+  };
+  const handleSubmittion = () => {
+    setToggleStatue(true);
+    buttonRef.current?.click();
+  };
   const weekDays = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
   const startTime = formateTime(selectedMission.start_time);
   const endTime = formateTime(selectedMission.end_time);
@@ -51,7 +63,8 @@ export default function Mission({
         animate="show"
         exit="hide"
       >
-        {toggleStatue == false ? (
+        {toggleStatue == false ||
+        (state.includes("done") && toggleStatue !== "re-edit") ? (
           <>
             <div className="w-11/12 flex justify-between text-white items-start">
               <div>
@@ -102,7 +115,7 @@ export default function Mission({
                 </div>
                 <div
                   className="w-[33px] h-[33px] rounded-full border-[1px] border-white cursor-pointer flex justify-center items-center duration-300"
-                  onClick={() => setToggleStatue(true)}
+                  onClick={handleEdition}
                 >
                   <BiEdit color="white" size={13} />
                 </div>
@@ -215,7 +228,9 @@ export default function Mission({
                 </div>
                 <button
                   className="w-[33px] h-[33px] rounded-full border-[1px] border-white cursor-pointer flex justify-center items-center duration-300"
-                  onClick={() => setToggleStatue(false)}
+                  type="submit"
+                  ref={buttonRef}
+                  onClick={handleSubmittion}
                 >
                   <BiSave color="white" size={13} />
                 </button>

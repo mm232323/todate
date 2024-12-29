@@ -39,6 +39,7 @@ export async function setAvatar(state: unknown, event: FormData) {
   const resMes = await response.data;
   console.log(resMes);
   revalidatePath("/", "layout");
+  return undefined;
 }
 
 export async function getAvatar(email: string) {
@@ -230,7 +231,6 @@ export async function updateMission(state: unknown, event: FormData) {
     !["am", "pm"].includes(endTime[2].toLowerCase())
   )
     errors.push("end_time");
-  console.log(errors);
   if (errors.length > 0) return errors;
   const response = await fetch(`${process.env.SERVER_HOST}/update-mission`, {
     method: "POST",
@@ -245,4 +245,6 @@ export async function updateMission(state: unknown, event: FormData) {
   });
   const resMes = (await response.json()).message;
   console.log(resMes);
+  revalidatePath("/", "layout");
+  return ["done"];
 }
